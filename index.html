@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/jquery.fileupload.css">
+	<meta charset="utf-8">
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.json.min.js"></script>
+
+</head>
+<body>
+	<div class="container">
+		
+		<div class="jumbotron">
+			<p>Оставить комментарий</p>
+			<form id="comment_form" class="comment-form" method="POST">
+				<p>email<input type="text" name="email" class="form-control"></p>
+				<p>ФИО<input type="text" name="fio" class="form-control"></p>
+				<p>номер телефона<input type="text" name="telephone" class="form-control"></p>
+				<textarea class="commentarea" name="comment"></textarea><br>
+				 <span class="btn btn-success fileinput-button">
+				 	download
+					<input  type="file" name="file">
+				</span><br><br>
+				
+			</form>
+			<button id="add" class="btn btn-primary">
+					отправить
+			</button>
+			
+			
+
+		</div>
+		<div id="comments" class="comments">
+				
+		</div>
+
+	</div>
+
+<script>
+
+
+
+$(function(){
+
+
+
+	$(document).ready(function(){
+		$.ajax({
+			url:'addComment.php',
+			type:'POST',
+			data:'getComments='+$('#comments').length,
+			success:function(data){
+				$("#comments").append(data);
+				console.log(data);
+			},
+			
+			error:function(){}
+		});
+	});
+
+
+	$("#add").on('click',function(){
+		
+		/*
+		if($('input[name="file"]')[0].files.length === 0){
+			var image = 0;
+		}else{
+			//var imagename = $('input[name="file"]')[0].files[0]["name"];
+			var image =  $('input[type="file"]')[0].files[0];
+			var formdata = new FormData($('input[type="file"]')[0].files[0]);
+			console.log(formdata);
+		}*/
+
+		
+		var dataform = {
+			email : $('input[name="email"]').val(),
+			fio : $('input[name="fio"]').val(),
+			telephone : $('input[name="telephone"]').val(),
+			//file : formdata,
+			comment:  $('textarea[name="comment"]').val(),
+		}
+		//console.log(dataform);
+
+		$('input[name="email"]').val(''),
+		$('input[name="fio"]').val(''),
+		$('input[name="telephone"]').val(''),
+		$('textarea[name="comment"]').val(''),
+		
+		//console.log(email,fio,telephone,file);
+		
+		$.ajax({
+			url:'addComment.php',
+			type:'POST',
+			data:'jsonData=' + $.toJSON(dataform),
+			success:function(data){
+				$("#comments").prepend(data);
+				console.log(data);
+			},
+			
+			error:function(){}
+		});
+
+		
+
+		return false;
+	
+	});
+
+});
+</script>
+
+</body>
+</html>

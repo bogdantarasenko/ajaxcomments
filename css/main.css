@@ -1,0 +1,21 @@
+.jumbotron , .comment-form{
+	margin:auto;
+	width: 500px;
+}
+.comment-form input[type="text"]{
+	width:75%;
+}
+.progress{
+	width:75%;
+}
+.commentarea{
+	width:75%;
+	height:75px;
+	border-radius: 3px;
+}
+.comments{
+	width:50%;
+	
+	padding-top: 20px;
+	margin:auto;
+}
